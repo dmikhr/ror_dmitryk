@@ -8,37 +8,20 @@ def ravnobedr(input_data, delimiter = " ")
   input_data = input_data.split(delimiter).map { |x| x.to_f }
   # погрешность при проверке на прямоугольность
   delta = 0.2
-  # лямбда-функция проверки, что все числа больше 0
-  positive_number = ->(x) { x > 0 ? true : false }
-  # лямбда-функция проверки на прямоугольность по теореме Пифагора
-  # вместо жесткой проверки a^2+b^2=c^2, проверяем, что разность квадрата гипотенузы и
-  # суммы квадратов катетов меньше заданной погрешности a^2+b^2-c^2 < delta
-  # с целью убрать возможные неточности при округлении
-  pryamougolny = ->(hypotenuse, a, b) { hypotenuse**2 - (a**2 + b**2) < delta ? true : false }
-  # лямбда-функция проверки на равнобедренность
-  ravnobedrenny = ->(a, b) { a == b ? true : false }
-  # лямбда-функция проверки, что треугольник равносторонний
-  ravnostoronny = ->(hypotenuse, a, b) { hypotenuse == a && hypotenuse == b ? true : false }
   # проверка, все ли введенные параметры > 0
-  if input_data.map { |x| positive_number.call(x) }.all?
+  if input_data.all? { |x| x > 0 }
     # находим гипотенузу, как самую длинную сторону треугольника
-    hypotenuse = input_data.max
-    # убираем значение гипотенузы из массива данных
-    # в массиве останутся только значения длин катетов
-    input_data.delete_at(input_data.find_index(hypotenuse))
+    h = input_data.max
     # переносим в переменные длины катетов
-    a = input_data[0]
-    b = input_data[1]
-    # проверка на равносторонность
-    is_ravnostoronny = ravnostoronny.call(hypotenuse, a, b)
-    # проверка на прямоугольность
-    is_pryamougolny = pryamougolny.call(hypotenuse, a, b)
-    # проверка на равнобедренность
-    is_ravnobedrenny = ravnobedrenny.call(a,b)
+    a, b = input_data.min(2)
+    # вместо жесткой проверки a^2+b^2=h^2, проверяем, что разность квадрата гипотенузы и
+    # суммы квадратов катетов меньше заданной погрешности a^2+b^2-h^2 < delta
+    # с целью убрать возможные неточности при округлении
+    is_pryamougolny = h**2 - (a**2 + b**2) < delta
     # по полученным булевым значениям выводим соотвествующие сообщения
-    if is_ravnostoronny
+    if h == a && h == b
       puts "Треугольник не прямоугольный, но равнобедренный и равносторонний"
-    elsif is_pryamougolny && is_ravnobedrenny
+    elsif is_pryamougolny && a == b
       puts "Треугольник прямоугольный и равнобедренный"
     elsif is_pryamougolny
         puts "Треугольник прямоугольный"
