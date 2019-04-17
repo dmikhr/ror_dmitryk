@@ -8,11 +8,7 @@ $months = {"Январь" => 31, "Февраль" => 28, "Март" => 31, "Ап
 
 # определение високосного года
 def leap_year(year)
-  if year % 4 == 0 && year % 100 != 0 || year % 400 == 0
-    return true
-  else
-    return false
-  end
+  return year % 4 == 0 && year % 100 != 0 || year % 400 == 0
 end
 
 def days_from_year_beginning(input_data)
