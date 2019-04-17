@@ -1,6 +1,6 @@
 # Сумма покупок
 
-goods = Hash.new
+goods = {}
 
 loop do
   puts "Введите наименование товара, стоимость и количество (через пробел)"
@@ -21,7 +21,7 @@ total_price = 0
 
 goods.each do |item_name, price_amount|
   # итоговая сумма за товар
-  price_all = price_amount.keys[0]*price_amount.values[0]
+  price_all = price_amount.keys[0] * price_amount.values[0]
   # цена всех покупок
   total_price += price_all
   puts "Товар: #{item_name}, Цена:#{price_amount.keys[0]}, Количество: #{price_amount.values[0]}, Итого: #{price_all}"

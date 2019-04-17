@@ -8,7 +8,7 @@ $months = {"Январь" => 31, "Февраль" => 28, "Март" => 31, "Ап
 
 # определение високосного года
 def leap_year(year)
-  return year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+  year % 4 == 0 && year % 100 != 0 || year % 400 == 0
 end
 
 def days_from_year_beginning(input_data)
@@ -21,9 +21,7 @@ def days_from_year_beginning(input_data)
   # счетчик дней с начала года
   days_from_start = 0
   # суммируем дни в уже прошедших месяцах
-  for i in 0..month-2
-    days_from_start += $months[$months.keys[i]]
-  end
+  (0...month-1).each { |i| days_from_start += $months[$months.keys[i]] }
   # добавляем кол-во дней в месяце, введенном пользователем
   puts "Дней с начала года: #{days_from_start + day}"
 end
