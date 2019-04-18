@@ -1,6 +1,8 @@
-# тестирование работы классов
+# тестирование работы класса Train
 
-require '../task_oop.rb'
+require '../station.rb'
+require '../route.rb'
+require '../train.rb'
 
 first_station = Station.new('Фрязево')
 end_station = Station.new('Москва-Курская')
