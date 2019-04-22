@@ -1,4 +1,4 @@
-production_company.rb - модуль позволяющий указывать название компании-производителя и получать его\
+production_company.rb - модуль, позволяющий указывать и получать название компании-производителя\
 instancecounter.rb - модуль InstanceCounter\
 train.rb - базовый класс поезда Train\
 cargo_train.rb - класс грузового поезда, подкласс Train\
