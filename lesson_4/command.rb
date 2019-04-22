@@ -40,11 +40,11 @@ class Command
   end
 
   def add_station_to_route(route_id = '', station_id = '', station_position = '')
-    @routes[route_id.to_i - 1].add_station(@stations[station_id.to_i - 1], station_position.to_i)
+    puts 'Можно добавить только промежуточную станцию' unless @routes[route_id.to_i - 1].add_station(@stations[station_id.to_i - 1], station_position.to_i)
   end
 
   def remove_station_from_route(route_id = '', station_id = '')
-    @routes[route_id.to_i - 1].delete_station(@stations[station_id.to_i - 1])
+    puts 'Можно удалить только промежуточную станцию' unless @routes[route_id.to_i - 1].delete_station(@stations[station_id.to_i - 1])
   end
 
   def set_route(route_id = '', train_number = '')
@@ -58,6 +58,8 @@ class Command
     if train.add_carriage(carriage)
       # вагон прицеплен к поезду, удалем его из списка свободных вагонов
       @free_carriages.delete(carriage)
+    else
+      puts 'Проверьте, что поезд не движется и вагон соответствует типу поезда'
     end
   end
 
@@ -67,9 +69,12 @@ class Command
     puts "Вагоны, прицепленные к поезду #{number}"
     puts show_train_carriages(train)
     carriage = get_train_carriage_by_id(train, carriage_id)
-    train.remove_carriage(carriage)
-    # т.к. вагон отцеплен, добавляем его в список свободных вагонов
-    @free_carriages << carriage
+    if train.remove_carriage(carriage)
+      # т.к. вагон отцеплен, добавляем его в список свободных вагонов
+      @free_carriages << carriage
+    else
+      puts 'Проверьте, что поезд не движется и у него еще есть вагоны'
+    end
   end
 
   def move_train(number = '', direction = '')
@@ -79,12 +84,12 @@ class Command
     # "Направление движения: 1 - вперед, 2 - назад"
     case direction.to_i
     when 1
-      train.move_next_station
+      train_moving_forward(train)
     when 2
-      train.move_back_station
+      train_moving_back(train)
     end
     # останавливаем поезд по прибытию на станцию
-    train.slow_down(30)
+    puts 'Скорость не может быть меньше 0' unless train.slow_down(30)
   end
 
   def trains_on_station(station_name = '')
@@ -134,4 +139,24 @@ class Command
   def show_train_carriages(train)
     train.carriages.each.with_index(1) { |carriage, id| puts "#{id} - Вагон #{carriage.id}" }
   end
+
+  # вспомогательные функции для отображения движения поезда по станциям
+  # заменяют puts из класса Station
+  def train_moving_forward(train)
+    station = find_train(train)
+    puts "Поезд #{train.number} на станции #{station.name}"
+    puts "Поезд #{train.number} уже прибыл на конечную станцию #{station.name}" unless train.move_next_station
+  end
+
+  def train_moving_back(train)
+    station = find_train(train)
+    puts "Поезд #{train.number} на станции #{station.name}"
+    puts "Поезд #{train.number} уже прибыл на начальную станцию #{station.name}" unless train.move_back_station
+  end
+
+  # на какой станции сейчас поезд
+  def find_train(train)
+    @stations.select { |station| station.trains.include?(train) }[0]
+  end
+
 end

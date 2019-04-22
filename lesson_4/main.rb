@@ -35,9 +35,7 @@ loop do
   # элемент массива с методом на 1 меньше номера команды в списке
   if defined? cmd.commands[input.to_i - 1][1]
     cmd.commands[input.to_i - 1][1].call
-    if DEBUG
-      debug_data(cmd)
-    end
+    debug_data(cmd) if DEBUG
   else
     puts 'Неизвестная команда'
   end

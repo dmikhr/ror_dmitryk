@@ -47,6 +47,7 @@ puts cmd.trains.inspect
 puts 'Список всех станций'
 cmd.show_available_stations
 
+
 puts 'Маршруты'
 puts 'Создаем маршрут Москва -> Коломна'
 cmd.create_route('Москва', 'Коломна')
@@ -61,6 +62,14 @@ puts cmd.routes.inspect
 
 puts 'Удалим промежуточную станциию Косино'
 cmd.remove_station_from_route(1, 4)
+puts cmd.routes.inspect
+
+puts 'Пробуем удалить начальную станциию'
+cmd.remove_station_from_route(1, 2)
+puts cmd.routes.inspect
+
+puts 'Пробуем удалить конечную станциию'
+cmd.remove_station_from_route(1, 1)
 puts cmd.routes.inspect
 
 # =====

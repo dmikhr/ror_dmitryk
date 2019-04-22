@@ -10,24 +10,11 @@ class Train
   end
 
   def add_carriage(carriage)
-    if @speed.zero?
-      @carriages << carriage
-    else
-      puts 'Остановите поезд, чтобы прицепить вагон'
-    end
+    @carriages << carriage if @speed.zero?
   end
 
   def remove_carriage(carriage)
-    if @speed.zero?
-      if @carriages.size > 0
-        @carriages.delete(carriage)
-      #  @carriage_num -= 1
-      else
-        puts 'Вагонов не может быть меньше 0'
-      end
-    else
-      puts 'Остановите поезд, чтобы отцепить вагон'
-    end
+    @carriages.delete(carriage) if @speed.zero? && @carriages.size > 0
   end
 
   def move_next_station
@@ -35,9 +22,6 @@ class Train
       current_station.send_train(self)
       next_station.receive_train(self)
       @station_position += 1
-    else
-      puts 'Поезд уже прибыл на конечную станцию'
-      return false
     end
   end
 
@@ -46,9 +30,6 @@ class Train
       current_station.send_train(self)
       previous_station.receive_train(self)
       @station_position -= 1
-    else
-      puts 'Поезд уже прибыл на начальную станцию'
-      return false
     end
   end
 
@@ -68,14 +49,12 @@ class Train
   def slow_down(speed_decrement)
     if @speed - speed_decrement >= 0
       @speed -= speed_decrement
-    else
-      puts 'Скорость не может быть меньше 0'
     end
   end
 
   protected
   # методы для внутреннего использования
-  # зкщеусеув вместо private, т.к. у класса будут подклассы
+  # protected вместо private, т.к. у класса будут подклассы
 
   attr_reader :speed, :type, :route
 

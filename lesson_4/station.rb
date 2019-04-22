@@ -10,7 +10,6 @@ class Station
 
   def receive_train(train)
     @trains << train
-    puts "Станция #{@name} - Поезд #{train.number} прибыл"
   end
 
   def show_trains_by_type(train_type)
@@ -19,6 +18,5 @@ class Station
 
   def send_train(train)
     @trains.delete(train)
-    puts "Станция #{@name} - Поезд #{train.number} отправлен"
   end
 end

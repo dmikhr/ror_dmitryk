@@ -8,23 +8,21 @@ class Route
   end
 
   def add_station(station, position)
-    # станция должна находиться между начальной и конечной
-    if position > 0 && position < @stations.size
-      @stations.insert(position, station)
-    else
-      puts 'Можно добавить только промежуточную станцию'
-    end
+    @stations.insert(position, station) if middle_statinon?(position)
   end
 
   def delete_station(station)
-    if station != @stations.first && station != @stations.last
-      @stations.delete(station)
-    else
-      puts 'Можно удалить только промежуточную станцию'
-    end
+    @stations.delete(station) unless border_station(station)
   end
 
-  def show_stations
-    @stations.each { |station| puts station.name }
+  private
+  # методы для использования внутри класса
+  def middle_statinon?(position)
+    position > 0 && position < @stations.size
+  end
+
+  # ture - если станция крайняя в маршруте (начальная или конечная)
+  def border_station(station)
+    station == @stations.first || station == @stations.last
   end
 end

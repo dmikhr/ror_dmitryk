@@ -4,11 +4,6 @@ class PassengerTrain < Train
   end
 
   def add_carriage(carriage)
-    if carriage.type == "пассажирский"
-      super(carriage)
-    else
-      puts 'Можно прицепить только пассажирский вагон'
-      return false
-    end
+    super(carriage) if carriage.type == "пассажирский"
   end
 end
