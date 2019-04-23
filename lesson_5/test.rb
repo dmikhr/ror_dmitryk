@@ -1,4 +1,4 @@
-require_relative 'instancecounter'
+require_relative 'instance_counter'
 require_relative 'production_company'
 require_relative 'station'
 require_relative 'train'
@@ -58,6 +58,10 @@ puts trains.inspect
 
 puts "\nИщем существующий поезд"
 res = Train.find('ВП6100')
+puts res.inspect
+
+puts "\nИщем существующий поезд 2"
+res = Train.find('ВГ1100')
 puts res.inspect
 
 

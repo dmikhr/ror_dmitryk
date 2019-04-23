@@ -5,10 +5,11 @@ class Train
 
   attr_reader :number, :carriages
 
-  @@trains = []
+  # переменная класса - хеш для хранения инстансов поездов в формате номер_поезда => инстанс
+  @@trains = {}
   # метод класса - поиск инстанса поезда по номеру
   def self.find(number)
-    @@trains.select { |train| train.number == number }[0]
+    @@trains[number]
   end
 
   def initialize(number, type)
@@ -17,7 +18,7 @@ class Train
     @type = type
     @carriages = []
     @speed = 0
-    @@trains << self
+    @@trains[number] = self
   end
 
   def add_carriage(carriage)

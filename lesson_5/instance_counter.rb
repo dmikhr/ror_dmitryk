@@ -20,9 +20,8 @@ module InstanceCounter
     # могут быть подклассы
     protected
     def register_instance
-      # если значение instances еще не задано, то  присваиваем 1
-      # иначе прибавляем 1
-      self.class.instances.nil? ? self.class.instances = 1 : self.class.instances += 1
+      self.class.instances ||= 0 # инициализация счетчика, если ранее он не был задан
+      self.class.instances += 1 # увеличиваем счетчик объектов на 1
     end
 
   end
