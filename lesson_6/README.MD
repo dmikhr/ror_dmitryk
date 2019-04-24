@@ -1,7 +1,9 @@
 Валидация добавлена в базовые классы Train, Station, Route, Carriage\
 \
 validation.rb - метод valid? - вынесен в отдельный модуль, т.к. его реализация во всех классах одинаковая\
-train_interface.rb - текстовый интерфейс для создания поездов\
+command.rb - базовый класс Command реализующий функции в меню\
+commandprompt.rb - модифицированный ввод данных с учетом обработки исключений при создании объекта Train\
+train_interface.rb - текстовый интерфейс для создания поездов (deprecated)\
 production_company.rb - модуль, позволяющий указывать и получать название компании-производителя\
 instancecounter.rb - модуль InstanceCounter\
 train.rb - базовый класс поезда Train\
