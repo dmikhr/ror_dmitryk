@@ -8,8 +8,15 @@ class CommandPrompt < Command
 
   def initialize
     # команды задаюстся в виде 2-х мерного массива, парами название_команды - метод
-    @commands = [['Создать станцию', method(:create_station)], ['Создать поезд', method(:create_train)], ['Создать маршрут', method(:create_route)], ['Добавить станцию в маршрут', method(:add_station_to_route)], ['Удалить станцию из маршрута', method(:remove_station_from_route)], ['Назначить маршрут поезду',method(:set_route)], ['Прицепить вагон к поезду', method(:add_carriage)], ['Отцепить вагон от поезда', method(:remove_carriage)],
-    ['Переместить поезд по маршруту', method(:move_train)], ['Список станций', method(:show_available_stations)], ['Cписок поездов на станции', method(:trains_on_station)], ['Список вагонов у поезда', method(:train_carriages_list)], ['Зарезервировать место в пассажирском вагоне', method(:reserve_seat)], ['Зарезервировать объем в грузовом вагоне', method(:reserve_volume)], ['Создать вагон', method(:create_carriage)]]
+    @commands = [
+      ['Создать станцию', method(:create_station)], ['Создать поезд', method(:create_train)], ['Создать маршрут', method(:create_route)],
+      ['Добавить станцию в маршрут', method(:add_station_to_route)], ['Удалить станцию из маршрута', method(:remove_station_from_route)],
+      ['Назначить маршрут поезду',method(:set_route)], ['Прицепить вагон к поезду', method(:add_carriage)],
+      ['Отцепить вагон от поезда', method(:remove_carriage)], ['Переместить поезд по маршруту', method(:move_train)],
+      ['Список станций', method(:show_available_stations)], ['Cписок поездов на станции', method(:trains_on_station)],
+      ['Список вагонов у поезда', method(:train_carriages_list)], ['Зарезервировать место в пассажирском вагоне', method(:reserve_seat)],
+      ['Зарезервировать объем в грузовом вагоне', method(:reserve_volume)], ['Создать вагон', method(:create_carriage)]
+    ]
     super
   end
 
@@ -46,7 +53,11 @@ class CommandPrompt < Command
     puts 'Введите название станции'
     station_name = gets.chomp
     station = get_station_by_name(station_name)
-    station.block_train { |train| puts "Поезд #{train.number}, тип: #{train.type}, количество вагонов: #{train.carriages.size}" }
+    station.block_train do |train|
+      puts "Поезд #{train.number}, "/
+      "тип: #{train.type}, "\
+      "количество вагонов: #{train.carriages.size}"
+    end
   end
 
   def reserve_seat(carriage_id = '')

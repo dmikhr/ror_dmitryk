@@ -57,11 +57,15 @@ train3 = Train.new('ВЛ1-01', 'грузовой')
 #puts station1.trains
 
 puts 'блок выводит номера поездов на заданной станции'
-station1.block_train { |train| puts "Поезд #{train.number} на станции #{station1.name}" }
+station1.each_train { |train| puts "Поезд #{train.number} на станции #{station1.name}" }
+
+# проверяем поведение функции при вызове без аргумента
+# учитывая, что в Station есть проверка if block_given? - вызов без аргумента не должен привести к ошибке,
+# а будет возвращен nil
 puts 'вызов без аргументов'
-p station1.block_train
+p station1.each_train
 puts 'все названия поездов заглавными буквами'
-station1.block_train { |train| puts "Поезд #{train.number.upcase}" }
+station1.each_train { |train| puts "Поезд #{train.number.upcase}" }
 
 puts "\nПоезда и вагоны"
 carr1 = PassengerCarriage.new('ВП1000', 60)
@@ -73,14 +77,14 @@ carr4 = PassengerCarriage.new('ВП4000', 40)
 p train2
 
 puts 'блок выводящий вагоны, прицепленные к заданному поезду'
-train2.block_carriage { |carriage| puts carriage.id }
+train2.each_carriage { |carriage| puts carriage.id }
 
 puts 'блок выводящий вагоны, прицепленные к заданному поезду - с сообщением'
-train2.block_carriage { |carriage| puts "Вагон #{carriage.id} прицеплен к поезду #{train2.number}" }
+train2.each_carriage { |carriage| puts "Вагон #{carriage.id} прицеплен к поезду #{train2.number}" }
 
 
 puts 'вызов без аргументов'
-p train2.block_carriage
+p train2.each_carriage
 
 
 puts "\nТестирование интерфейса"
@@ -118,7 +122,8 @@ puts cmd.stations[0].class
 
 cmd.create_route('Тверь', 'СПБ')
 cmd.set_route(1, 'ПВЛ-99')
-# должен отобразиться ПВЛ-99, тк ему назначен маршур из Твери и он должен был быть принят начальной станцией
+# должен отобразиться ПВЛ-99, тк ему назначен маршур из Твери и
+# он должен был быть принят начальной станцией
 cmd.trains_on_station('Тверь')
 
 # reserve_seat

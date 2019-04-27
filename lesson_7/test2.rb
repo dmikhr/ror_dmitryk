@@ -36,18 +36,23 @@ end
 test_stations.each { |station_name| cmd.create_station(station_name) }
 #p cmd.stations
 
-test_trains = {'ПВЛ-99' => {type: 1, station: 'Бологое', carriages: (1..3)}, 'ПВЛ-01' => {type: 1, station: 'Тверь', carriages: (4..10)}, 'Г01-01' => {type: 2, station: 'Тверь', carriages: (1..5)}, 'Г01-02' => {type: 2, station: 'Москва', carriages: (6..12)}, 'Г11-11' => {type: 2, station: 'Москва', carriages: 0}}
+test_trains = {
+  'ПВЛ-99' => {type: 1, station: 'Бологое', carriages: (1..3)}, 'ПВЛ-01' => {type: 1, station: 'Тверь', carriages: (4..10)},
+  'Г01-01' => {type: 2, station: 'Тверь', carriages: (1..5)}, 'Г01-02' => {type: 2, station: 'Москва', carriages: (6..12)},
+  'Г11-11' => {type: 2, station: 'Москва', carriages: 0}
+  }
 
 test_trains.each do |train_name, data|
   cmd.create_train(data[:type], train_name)
   if test_trains[train_name][:carriages] != 0
-    test_trains[train_name][:carriages].each { |i| cmd.add_carriage(train_name, data[:type] == 1 ? "ВП-#{i}" : "ВГ-#{i}") }
+    test_trains[train_name][:carriages].each do |i|
+      cmd.add_carriage(train_name, data[:type] == 1 ? "ВП-#{i}" : "ВГ-#{i}")
+    end
   end
   cmd.move_train_to_station(train_name, data[:station])
 end
 
 cmd.stations.each do |station|
-  #puts "Поезда на станции #{station.name}"
   puts '----------'
   puts "Станция #{station.name}"
   trains = cmd.trains_on_station(station.name)

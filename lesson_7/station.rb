@@ -23,9 +23,9 @@ class Station
   end
 
   # метод для блока
-  def block_train(&block)
+  def each_train
     # пройти по всем поездам, передавая каждый объект в блок
-    @trains.each { |train| block.call(train) } if block_given?
+    @trains.each { |train| yield(train) } if block_given?
   end
 
   def receive_train(train)

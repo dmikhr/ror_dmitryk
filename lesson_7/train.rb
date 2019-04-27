@@ -6,7 +6,8 @@ class Train
 
   attr_reader :number, :carriages, :type
 
-  # включая ^ (начало строки) и $ (конец строки) проверка идет на соответствие всей строки, а не на вхождение подстроки в строку
+  # включая ^ (начало строки) и $ (конец строки) проверка идет на соответствие всей строки,
+  # а не на вхождение подстроки в строку
   # [а-яa-z0-9] - могут быть буквы русского и латинского алфавитов и цифры
   # (-)? - тире опционально, ? - 0 или 1 вхождение
   # i - регистронезависимое сравнение
@@ -30,9 +31,9 @@ class Train
   end
 
   # метод для блока
-  def block_carriage(&block)
+  def each_carriage
     # пройти по всем вагонам, передавая каждый объект в блок
-    @carriages.each { |carriage| block.call(carriage) } if block_given?
+    @carriages.each { |carriage| yield(carriage) } if block_given?
   end
 
   def add_carriage(carriage)

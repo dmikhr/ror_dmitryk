@@ -1,6 +1,7 @@
 # класс Command содержит набор методов, реализующих команды, доступные в меню программы
 # также в экземпляре этого класса будут храниться созданные объекты - поезда/маршруты/вагоны/станции
-# в методах заданы значения по умолчанию, т.к. в подклассе CommandPrompt данные будут поступать от пользователя и методы будут вызываться без аргументов
+# в методах заданы значения по умолчанию, т.к. в подклассе CommandPrompt данные будут
+# поступать от пользователя и методы будут вызываться без аргументов
 class Command
   attr_reader :trains, :routes, :stations, :carriages
   def initialize
@@ -41,9 +42,19 @@ class Command
     if train.carriages.size > 0
       case train.type
       when 'пассажирский'
-        train.block_carriage { |carriage| puts "Пассажирский вагон номер: #{carriage.id}, мест: #{carriage.seats_num}, свободных: #{carriage.show_free_seats}, занятых: #{carriage.reserved_seats}" }
+        train.each_carriage do |carriage|
+          puts "Пассажирский вагон номер: #{carriage.id}, "\
+                "мест: #{carriage.seats_num}, "\
+                "свободных: #{carriage.show_free_seats}, "\
+                "занятых: #{carriage.reserved_seats}"
+        end
       when 'грузовой'
-        train.block_carriage { |carriage| puts "Грузовой вагон номер: #{carriage.id}, объем: #{carriage.volume}, осталось: #{carriage.show_free_volume}, занято: #{carriage.reserved_volume}" }
+        train.each_carriage do |carriage|
+          puts "Грузовой вагон номер: #{carriage.id}, "\
+                "объем: #{carriage.volume}, "\
+                "осталось: #{carriage.show_free_volume}, "\
+                "занято: #{carriage.reserved_volume}"
+        end
       end
     else
       puts 'У поезда вагонов нет'
@@ -52,7 +63,7 @@ class Command
 
   def trains_on_station(station_name = '')
     station = get_station_by_name(station_name)
-    station.block_train { |train| train }
+    station.each_train { |train| train }
   end
 
   def reserve_seat(carriage_id = '')
@@ -89,11 +100,13 @@ class Command
   end
 
   def add_station_to_route(route_id = '', station_id = '', station_position = '')
-    puts 'Можно добавить только промежуточную станцию' unless @routes[route_id.to_i - 1].add_station(@stations[station_id.to_i - 1], station_position.to_i)
+    puts 'Можно добавить только промежуточную станцию' unless @routes[route_id.to_i - 1].
+      add_station(@stations[station_id.to_i - 1], station_position.to_i)
   end
 
   def remove_station_from_route(route_id = '', station_id = '')
-    puts 'Можно удалить только промежуточную станцию' unless @routes[route_id.to_i - 1].delete_station(@stations[station_id.to_i - 1])
+    puts 'Можно удалить только промежуточную станцию' unless @routes[route_id.to_i - 1].
+      delete_station(@stations[station_id.to_i - 1])
   end
 
   def set_route(route_id = '', train_number = '')
