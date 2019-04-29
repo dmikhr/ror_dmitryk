@@ -1,7 +1,9 @@
-# класс Command содержит набор методов, реализующих команды, доступные в меню программы
-# также в экземпляре этого класса будут храниться созданные объекты - поезда/маршруты/вагоны/станции
-# в методах заданы значения по умолчанию, т.к. в подклассе CommandPrompt данные будут
-# поступать от пользователя и методы будут вызываться без аргументов
+# класс Command содержит набор методов, реализующих команды,
+# доступные в меню программы
+# также в экземпляре этого класса будут храниться созданные объекты -
+# поезда/маршруты/вагоны/станции
+# в методах заданы значения по умолчанию, т.к. в подклассе CommandPrompt данные
+# будут поступать от пользователя и методы будут вызываться без аргументов
 class Command
   attr_reader :trains, :routes, :stations, :carriages
   def initialize
@@ -9,14 +11,20 @@ class Command
     @routes = []
     @stations = []
     @carriages = []
-    #seed
+    # seed
   end
 
   # генерируем вагоны
   def seed
-    # хеш с вагонами, формат id_вагона => тип вагона (1 - пассажирский, 2 - грузовой)
-    #carriages = {'ВП1000' => 1, 'ВП1100' => 1, 'ВП1200' => 1, 'ВГ9000' => 2, 'ВГ9200' => 2}
-    #carriages.each { |id, type| create_carriage(type, id, type == 1 ? 60 : 1000) }
+    # хеш с вагонами, формат id_вагона
+    # => тип вагона (1 - пассажирский, 2 - грузовой)
+    # carriages = {
+    # 'ВП1000' => 1, 'ВП1100' => 1, 'ВП1200' => 1,
+    # 'ВГ9000' => 2, 'ВГ9200' => 2
+    # }
+    # carriages.each do |id, type|
+    #   create_carriage(type, id, type == 1 ? 60 : 1000)
+    # end
     p @carriages
   end
 
@@ -33,15 +41,15 @@ class Command
       @carriages << PassengerCarriage.new(id, param.to_i)
     when 2
       # объем может быть float
-      @carriages << CargoCarriage.new(id,param.to_f)
+      @carriages << CargoCarriage.new(id, param.to_f)
     end
   end
 
   def train_carriages_list(train_number = '')
     train = get_train_by_number(train_number)
-    if train.carriages.size > 0
+    if !train.carriages.empty?
       case train.type
-      when 'пассажирски й'
+      when 'пассажирский'
         train.each_carriage do |carriage|
           puts "Пассажирский вагон номер: #{carriage.id}, "\
                 "мест: #{carriage.seats_num}, "\
@@ -83,30 +91,39 @@ class Command
 
   # 1 - пассажирский, 2 - грузовой
   def create_train(type = '', number = '')
-    begin
-      case type.to_i
-      when 1
-        @trains << PassengerTrain.new(number)
-      when 2
-        @trains << CargoTrain.new(number)
-      end
-    rescue Exception => e
-      puts "Ошибка, повторите ввод. Причина: #{e.message}"
+    case type.to_i
+    when 1
+      @trains << PassengerTrain.new(number)
+    when 2
+      @trains << CargoTrain.new(number)
     end
+  rescue Exception => e
+    puts "Ошибка, повторите ввод. Причина: #{e.message}"
   end
 
   def create_route(first_station = '', end_station = '')
-    @routes << Route.new(get_station_by_name(first_station), get_station_by_name(end_station))
+    @routes << Route.new(
+                get_station_by_name(first_station),
+                get_station_by_name(end_station)
+              )
   end
 
-  def add_station_to_route(route_id = '', station_id = '', station_position = '')
-    puts 'Можно добавить только промежуточную станцию' unless @routes[route_id.to_i - 1].
-      add_station(@stations[station_id.to_i - 1], station_position.to_i)
+  def add_station_to_route(
+        route_id = '',
+        station_id = '',
+        station_position = ''
+      )
+    unless @routes[route_id.to_i - 1].
+              add_station(@stations[station_id.to_i - 1], station_position.to_i)
+      puts 'Можно добавить только промежуточную станцию'
+    end
   end
 
   def remove_station_from_route(route_id = '', station_id = '')
-    puts 'Можно удалить только промежуточную станцию' unless @routes[route_id.to_i - 1].
-      delete_station(@stations[station_id.to_i - 1])
+    unless @routes[route_id.to_i - 1].
+              delete_station(@stations[station_id.to_i - 1])
+      puts 'Можно удалить только промежуточную станцию'
+    end
   end
 
   def set_route(route_id = '', train_number = '')
@@ -117,7 +134,9 @@ class Command
   def add_carriage(number = '', carriage_id = '')
     train = get_train_by_number(number)
     carriage = get_carriage_by_id(carriage_id)
-    puts 'Проверьте, что поезд не движется и вагон соответствует типу поезда' unless train.add_carriage(carriage)
+    unless train.add_carriage(carriage)
+      puts 'Проверьте, что поезд не движется и вагон соответствует типу поезда'
+    end
   end
 
   def remove_carriage(number = '', carriage_id = '')
@@ -126,7 +145,9 @@ class Command
     puts "Вагоны, прицепленные к поезду #{number}"
     puts show_train_carriages(train)
     carriage = get_train_carriage_by_id(train, carriage_id)
-    puts 'Проверьте, что поезд не движется и у него еще есть вагоны' unless train.remove_carriage(carriage)
+    unless train.remove_carriage(carriage)
+      puts 'Проверьте, что поезд не движется и у него еще есть вагоны'
+    end
   end
 
   def move_train(number = '', direction = '')
@@ -169,7 +190,9 @@ class Command
   end
 
   def show_train_carriages(train)
-    train.carriages.each.with_index(1) { |carriage, id| puts "#{id} - Вагон #{carriage.id}" }
+    train.carriages.each.with_index(1) do |carriage, id|
+      puts "#{id} - Вагон #{carriage.id}"
+    end
   end
 
   # вспомогательные функции для отображения движения поезда по станциям
@@ -177,18 +200,23 @@ class Command
   def train_moving_forward(train)
     station = find_train(train)
     puts "Поезд #{train.number} на станции #{station.name}"
-    puts "Поезд #{train.number} уже прибыл на конечную станцию #{station.name}" unless train.move_next_station
+    unless train.move_next_station
+      puts "Поезд #{train.number} уже прибыл "\
+      "на конечную станцию #{station.name}"
+    end
   end
 
   def train_moving_back(train)
     station = find_train(train)
     puts "Поезд #{train.number} на станции #{station.name}"
-    puts "Поезд #{train.number} уже прибыл на начальную станцию #{station.name}" unless train.move_back_station
+    unless train.move_back_station
+      puts "Поезд #{train.number} уже прибыл на "\
+      "начальную станцию #{station.name}"
+    end
   end
 
   # на какой станции сейчас поезд
   def find_train(train)
     @stations.select { |station| station.trains.include?(train) }[0]
   end
-
 end
