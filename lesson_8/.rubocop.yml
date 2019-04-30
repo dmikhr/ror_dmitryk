@@ -1,0 +1,30 @@
+Style/AsciiComments:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 25
+
+Metrics/ClassLength:
+  Max: 200
+
+Metrics/AbcSize:
+  Max: 30
+
+Style/GuardClause:
+  Exclude:
+    - 'carriage.rb'
+    - 'cargo_carriage.rb'
+    - 'train.rb'
+    - 'route.rb'
+    - 'command.rb'
+
+Style/ClassVars:
+  Exclude:
+    - 'train.rb'
+    - 'station.rb'
+
+Lint/ShadowedArgument:
+  Exclude:
+    - 'commandprompt.rb'
+    - 'command.rb'
+

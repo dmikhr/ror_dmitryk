@@ -46,7 +46,7 @@ puts ccar.show_free_volume
 
 puts '-----'
 station1 = Station.new('Бологое')
-station2 = Station.new('Тверь')
+Station.new('Тверь')
 
 train1 = Train.new('S1000', 'грузовой')
 train2 = Train.new('ПВЛ-99', 'пассажирский')
@@ -92,12 +92,12 @@ p train2.each_carriage
 
 puts "\nТестирование интерфейса"
 cmd = Command.new
-carr1 = cmd.create_carriage('1111', 1, 60)
+cmd.create_carriage('1111', 1, 60)
 p cmd.carriages
 
-carr1 = cmd.create_carriage('2222', 1, 40)
-carr1 = cmd.create_carriage('0101', 2, 9000)
-carr1 = cmd.create_carriage('9090', 2, 10_000)
+cmd.create_carriage('2222', 1, 40)
+cmd.create_carriage('0101', 2, 9000)
+cmd.create_carriage('9090', 2, 10_000)
 p cmd.carriages
 
 # train_carriages_list

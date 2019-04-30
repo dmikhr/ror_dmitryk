@@ -20,7 +20,7 @@ class Carriage
   def validate!
     raise 'id вагона должен быть текстовым' unless @id.class == String
     raise 'id вагона не задан' if @id == ''
-    
+
     unless %w[пассажирский грузовой].include?(@type)
       raise 'Недопустимый тип вагона "\
       "(должен быть "пассажирский" или "грузовой")'

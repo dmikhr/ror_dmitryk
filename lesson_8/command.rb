@@ -97,15 +97,15 @@ class Command
     when 2
       @trains << CargoTrain.new(number)
     end
-  rescue Exception => e
+  rescue StandardError => e
     puts "Ошибка, повторите ввод. Причина: #{e.message}"
   end
 
   def create_route(first_station = '', end_station = '')
     @routes << Route.new(
-                get_station_by_name(first_station),
-                get_station_by_name(end_station)
-              )
+      get_station_by_name(first_station),
+      get_station_by_name(end_station)
+    )
   end
 
   def add_station_to_route(
@@ -113,15 +113,15 @@ class Command
         station_id = '',
         station_position = ''
       )
-    unless @routes[route_id.to_i - 1].
-              add_station(@stations[station_id.to_i - 1], station_position.to_i)
+    unless @routes[route_id.to_i - 1]
+           .add_station(@stations[station_id.to_i - 1], station_position.to_i)
       puts 'Можно добавить только промежуточную станцию'
     end
   end
 
   def remove_station_from_route(route_id = '', station_id = '')
-    unless @routes[route_id.to_i - 1].
-              delete_station(@stations[station_id.to_i - 1])
+    unless @routes[route_id.to_i - 1]
+           .delete_station(@stations[station_id.to_i - 1])
       puts 'Можно удалить только промежуточную станцию'
     end
   end
@@ -166,7 +166,9 @@ class Command
   end
 
   def show_available_stations
-    @stations.each.with_index(1) { |station, id| puts "#{id} - #{station.name}" }
+    @stations.each.with_index(1) do |station, id|
+      puts "#{id} - #{station.name}"
+    end
   end
 
   protected

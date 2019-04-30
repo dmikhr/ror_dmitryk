@@ -86,13 +86,13 @@ class Train
   attr_reader :speed, :route
 
   def validate!
-    unless @number.class == String
-      raise 'Номер поезда должен быть текстовым'
-    end
+    raise 'Номер поезда должен быть текстовым' if @number.class != String
+
     raise 'Номер поезда не задан' if @number == ''
     if @number !~ TRAIN_NUMBER_FORMAT
       raise "Номер поезда #{@number} не соответствует формату"
     end
+
     unless %w[пассажирский грузовой].include?(@type)
       raise 'Недопустимый тип поезда "\
       "(должен быть "пассажирский" или "грузовой")'

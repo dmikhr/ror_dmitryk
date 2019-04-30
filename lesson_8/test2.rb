@@ -36,11 +36,11 @@ test_stations.each { |station_name| cmd.create_station(station_name) }
 # p cmd.stations
 
 test_trains = {
-  'ПВЛ-99' => {type: 1, station: 'Бологое', carriages: (1..3)},
-  'ПВЛ-01' => {type: 1, station: 'Тверь', carriages: (4..10)},
-  'Г01-01' => {type: 2, station: 'Тверь', carriages: (1..5)},
-  'Г01-02' => {type: 2, station: 'Москва', carriages: (6..12)},
-  'Г11-11' => {type: 2, station: 'Москва', carriages: 0}
+  'ПВЛ-99' => { type: 1, station: 'Бологое', carriages: (1..3) },
+  'ПВЛ-01' => { type: 1, station: 'Тверь', carriages: (4..10) },
+  'Г01-01' => { type: 2, station: 'Тверь', carriages: (1..5) },
+  'Г01-02' => { type: 2, station: 'Москва', carriages: (6..12) },
+  'Г11-11' => { type: 2, station: 'Москва', carriages: 0 }
 }
 
 test_trains.each do |train_name, data|
