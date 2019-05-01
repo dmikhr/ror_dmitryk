@@ -12,7 +12,7 @@ module Validation
     attr_reader :validations
     def validate(attr_name, validation_type, *args)
       @validations ||= []
-      @validations << [validation_type, attr_name, *args]
+      @validations << { type: validation_type, var: attr_name, args: args }
     end
   end
 
@@ -21,13 +21,8 @@ module Validation
       # проверяем, если есть ли что-нибудь для проверки
       unless self.class.validations.nil?
         self.class.validations.each do |params|
-          var = instance_variable_get("@#{params[1]}")
-          case params.size
-          when 2
-            send params[0], var
-          when 3
-            send params[0], var, params[2]
-          end
+          var = instance_variable_get("@#{params[:var]}")
+          send "validate_#{params[:type]}", var, *params[:args]
         end
       end
     end
@@ -41,16 +36,16 @@ module Validation
 
     protected
 
-    def presence(attr)
+    def validate_presence(attr)
       raise 'Ошибка: Параметр nil либо пуст' if attr.nil? || attr.empty?
     end
 
-    def format(attr, regexp)
+    def validate_format(attr, regexp)
       raise "Ошибка: #{attr} не соответствует регулярному выражению #{regexp}" if (regexp =~ attr).nil?
     end
 
     # attrtype вместо type, чтобы не было конфликта с параметром type класса Train
-    def attrtype(attr, type)
+    def validate_attrtype(attr, type)
       raise "Ошибка: несоответствие типов, необходим #{type}, задан: #{attr.class}" if attr.class != type
     end
   end

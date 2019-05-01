@@ -8,7 +8,7 @@ class Station
   # сохраняем историю переименований станции
   attr_accessor_with_history :name
   # введем новый параметр станции для демонстрации работы strong_attr_acessor
-  strong_attr_acessor :category
+  strong_attr_acessor :category, String
 
   validate :name, :presence
   validate :name, :attrtype, String
@@ -26,7 +26,7 @@ class Station
     # был вызван setter и 1-ое значение тоже сохранилось в истории значений
     self.name = name
     @trains = []
-    @category = 'Товарная', String
+    @category = 'Товарная'
     # заносим сам объект в массив
     @@stations << self
     validate!

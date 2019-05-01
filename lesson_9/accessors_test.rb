@@ -9,7 +9,8 @@ class AccessorsTest
   extend Accessors
 
   attr_accessor_with_history :a, :b, :c
-  strong_attr_acessor :qq, :xx
+  strong_attr_acessor :qq, String
+  strong_attr_acessor :xx, Fixnum
 
   def initialize(a = '')
     self.a = a
@@ -38,14 +39,14 @@ p a.a_history
 
 puts 'Применение strong_attr_acessor'
 # присваиваем строку в типом String
-a.qq = 'qwe', String
+a.qq = 'qwe'
 p a.qq
 # присваиваем число с типом Fixnum
-a.xx = 12, Fixnum
+a.xx = 12
 p a.xx
-# присваиваем массив с типом Array
-a.xx = [1, 2, 3], Array
-p a.xx
+# присваиваем массив с типом Array - будет ошибка несоответствия типов
+#a.xx = [1, 2, 3]
+#p a.xx
 
 # присваиваем строку с типом Array - выводится исключение
 # a.xx = 'hello', Array
@@ -63,6 +64,7 @@ puts '======'
 bb = AccessorsTest.new(10)
 
 bb.a = 15
+bb.a = -12
 bb.a = 20
 p bb
 
@@ -70,5 +72,7 @@ station1 = Station.new('Железнодорожная')
 station1.name = 'Приозерная'
 station1.name = 'Фрезер'
 puts station1.name_history
-station1.category = 'Пассажирская', String
-# station1.category = 111, String
+station1.category = 'Пассажирская'
+p station1
+# при присваивании будет вызвано исключение - несоответствие типов
+# station1.category = 111
