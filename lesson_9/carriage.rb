@@ -7,9 +7,9 @@ class Carriage
   attr_reader :id, :type
 
   validate :id, :presence
-  validate :id, :attrtype, String
+  validate :id, :type, String
   validate :type, :presence
-  validate :type, :attrtype, String
+  validate :type, :type, String
 
   def initialize(id, type)
     # каждый вагон будет иметь id по которому

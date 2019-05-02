@@ -7,10 +7,10 @@ class TestVal
 
   validate :a, :presence
   validate :a, :format, /^[A-Z]{0,3}$/
-  validate :a, :attrtype, String
+  validate :a, :type, String
   validate :b, :presence
   validate :b, :format, /^[A-Z]{0,3}$/
-  validate :b, :attrtype, String
+  validate :b, :type, String
 
   def initialize
     @a = 'AZZ'

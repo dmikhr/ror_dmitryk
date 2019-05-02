@@ -44,8 +44,7 @@ module Validation
       raise "Ошибка: #{attr} не соответствует регулярному выражению #{regexp}" if (regexp =~ attr).nil?
     end
 
-    # attrtype вместо type, чтобы не было конфликта с параметром type класса Train
-    def validate_attrtype(attr, type)
+    def validate_type(attr, type)
       raise "Ошибка: несоответствие типов, необходим #{type}, задан: #{attr.class}" if attr.class != type
     end
   end

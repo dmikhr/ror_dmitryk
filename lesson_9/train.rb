@@ -17,7 +17,7 @@ class Train
   TRAIN_NUMBER_FORMAT = /^[а-яa-z0-9]{3}(-)?[а-яa-z0-9]{2}$/i.freeze
   validate :number, :presence
   validate :number, :format, TRAIN_NUMBER_FORMAT
-  validate :number, :attrtype, String
+  validate :number, :type, String
 
   # переменная класса - хеш для хранения инстансов
   # поездов в формате номер_поезда => инстанс

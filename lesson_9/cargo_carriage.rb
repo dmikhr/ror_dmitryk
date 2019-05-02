@@ -3,9 +3,9 @@ class CargoCarriage < Carriage
   attr_reader :volume, :reserved_volume
 
   validate :id, :presence
-  validate :id, :attrtype, String
+  validate :id, :type, String
   validate :type, :presence
-  validate :type, :attrtype, String
+  validate :type, :type, String
 
   def initialize(id, volume)
     @volume = volume

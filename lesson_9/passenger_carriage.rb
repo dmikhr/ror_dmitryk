@@ -4,9 +4,9 @@ class PassengerCarriage < Carriage
   attr_reader :seats_num, :reserved_seats
 
   validate :id, :presence
-  validate :id, :attrtype, String
+  validate :id, :type, String
   validate :type, :presence
-  validate :type, :attrtype, String
+  validate :type, :type, String
 
   def initialize(id, seats_num)
     super(id, 'пассажирский')

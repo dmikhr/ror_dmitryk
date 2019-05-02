@@ -11,7 +11,7 @@ class Station
   strong_attr_acessor :category, String
 
   validate :name, :presence
-  validate :name, :attrtype, String
+  validate :name, :type, String
 
   # переменная класса - массив, который будет содержать все экземпляры класса
   @@stations = []
